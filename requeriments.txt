@@ -1,0 +1,6 @@
+sudo pip3 install selenium
+sudo pip3 install virtualenv
+sudo pip3 install fake-useragent
+
+Execute:
+virtualenv .venv

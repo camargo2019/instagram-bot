@@ -1,0 +1,45 @@
+{
+  "name": "Instagram Mobile for Chrome",
+  "version": "0.0.2",
+  "description": "Turns instagram.com to the mobile version in Chrome",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistant": true
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.instagram.com/*"
+  ],
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "all_frames": true,
+      "matches": [
+        "https://www.instagram.com/*"
+      ],
+      "js": [
+        "injection.js"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_icon": {
+      "128": "icons/icon-128-off.png",
+      "48": "icons/icon-48-off.png",
+      "32": "icons/icon-32-off.png",
+      "16": "icons/icon-16-off.png"
+    }
+  },
+  "icons": {
+    "128": "icons/icon-128-on.png",
+    "48": "icons/icon-48-on.png",
+    "32": "icons/icon-32-on.png",
+    "16": "icons/icon-16-on.png"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "hide selenium",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["arrive.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

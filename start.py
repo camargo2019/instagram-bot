@@ -33,22 +33,30 @@ def UserAgent():
 def start_browser(myProxy=None, System=None):
     useragent = UserAgent()
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    path = dir_path+"/includes/instajs/"+","+dir_path+"/includes/anticaptcha/"
+    path = dir_path+"/includes/extension/"
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
     #options.add_argument('--no-sandbox')
     #options.add_argument(--start-maximized")
+    options.add_argument(f'user-agent={useragent}')
+    #options.add_argument('--disable-notifications')
     options.add_argument('--window-size=900,768')
     options.add_argument(f"--load-extension={path}")
+    #options.add_argument('--blink-settings=imagesEnabled=false')
+    #options.add_argument("--mute-audio")
     #options.add_argument("--disable-extensions")
+    #options.add_argument("--log-level=3")
     if myProxy:
         options.add_argument('--proxy-server=%s' % myProxy)
-    options.add_argument(f'user-agent={useragent}')
     
     if System == "Linux":
+        #options.binary_location = dir_path+"/chrome/linux/chrome"
+        #options.add_argument('--disable-dev-shm-usage')
         browser = webdriver.Chrome(options=options)
     else:
-        browser = webdriver.Chrome(options=options)
+        options.binary_location = dir_path+"\\chrome\\chrome.exe"
+        options.add_argument("--log-level=3")
+        browser = webdriver.Chrome(executable_path=dir_path+'\\drivers\\chromedriver.exe', options=options)
     browser.implicitly_wait(10)
     #browser.install_addon(dir_path+"/includes/buster_captcha_solver_for_humans-1.2.2-an+fx.xpi",return
     return browser
@@ -62,11 +70,12 @@ def configs():
         output_config = json.load(data)
     return output_config
 
-def save_config(email, name, username, password):
+def save_config(email, password):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     timestamp = str(date.today())
     with open(dir_path+'/output/'+timestamp+'.txt', 'a+') as file:
-        file.write('E-mail: '+str(email.strip())+' | Name: '+str(name.strip())+' | Username: '+str(username.strip())+' | Senha: '+str(password.strip())+'\n')
+        #file.write('E-mail: '+str(email.strip())+' | Name: '+str(name.strip())+' | Username: '+str(username.strip())+' | Senha: '+str(password.strip())+'\n')
+        file.write(''+str(email.strip())+'|'+str(password.strip())+'\n')
 
 def proxy_eleatorio():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -262,7 +271,7 @@ def confirmar_email(system, email, senha):
 
 try:
     #system = str(input("Qual seu Sistema Operacional? (Windows/Linux) "))
-    system = str("")
+    system = str("Linux")
     contasCriar = int(input("Quantas contas você quer criar? "))
 except:
     pass
@@ -298,16 +307,16 @@ try:
                     break
                 except:
                     print("\33[31m Erro em tentar conectar ao site!")
-            sleep(1)
+            sleep(0.1)
 
             # Caso tiver aceitação de Cookies
             try:
                 browser.find_element_by_xpath('//button[contains(text(),"Accept All")]').click()
-                sleep(3)
+                sleep(1)
             except:
                 try:
                     browser.find_element_by_xpath('//button[contains(text(),"Aceitar tudo")]').click()
-                    sleep(3)
+                    sleep(1)
                 except:
                     pass
             
@@ -317,6 +326,7 @@ try:
                     break
                 except:
                     print("\33[31m Erro em carregar a pagina de cadastro!")
+            sleep(1)
 
             result_email = str(result_username)+"@"+config["domain_cpanel"]
             result_name = generatingName()+" "+generatingSurName()
@@ -451,7 +461,7 @@ try:
             sleep(2)
             stop_browser(browser)
             
-            save_config(result_email, result_name, result_username2, result_password)
+            save_config(result_email, result_password)
             sleep(1)
             print("\33[27m")
             print("\33[32m => Conta criada com sucesso!")

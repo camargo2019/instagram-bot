@@ -11,12 +11,12 @@ def generatingName():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     addLinha = 0
     atualLine = 1
-    with open(dir_path+'/names.txt', 'r') as file:
+    with open(dir_path+'/names.txt', 'r', encoding='utf-8') as file:
         for line in file:
             addLinha = int(addLinha+1)
     rangeline = random.randint(1,addLinha)
     outputstring = False
-    with open(dir_path+'/names.txt', 'r') as file:
+    with open(dir_path+'/names.txt', 'r', encoding='utf-8') as file:
         for line in file:
             atualLine = int(atualLine+1)
             if(atualLine == rangeline):
@@ -28,12 +28,12 @@ def generatingSurName():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     addLinha = 0
     atualLine = 1
-    with open(dir_path+'/sobrenome.txt', 'r') as file:
+    with open(dir_path+'/sobrenome.txt', 'r', encoding='utf-8') as file:
         for line in file:
             addLinha = int(addLinha+1)
     rangeline = random.randint(1,addLinha)
     outputstring = False
-    with open(dir_path+'/sobrenome.txt', 'r') as file:
+    with open(dir_path+'/sobrenome.txt', 'r', encoding='utf-8') as file:
         for line in file:
             atualLine = int(atualLine+1)
             if(atualLine == rangeline):
@@ -45,7 +45,7 @@ def generatingSurName():
 def username(size=16, chars=string.ascii_lowercase + '.'):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     word_list = []
-    with open(dir_path+'/sobrenome.txt', 'r') as file:
+    with open(dir_path+'/sobrenome.txt', 'r', encoding='utf-8') as file:
         for line in file:
             word_list.append(str(line))
 
@@ -85,7 +85,7 @@ def username(size=16, chars=string.ascii_lowercase + '.'):
             number_list += ['']*10
             additional_number_list += random.choices(number_list, k=5)
             result_username += ''.join(list(map(str, additional_number_list)))
-    string_nova = re.sub(u'[^a-zA-Z0-9áéíóúÁÉÍÓÚâêîôÂÊÎÔãõÃÕçÇ: ]', '', result_username)
+    string_nova = re.sub(u'[^a-zA-Z0-9 \\\]', '', result_username)
     return string_nova
 
 def generatePassword(passwd=None):
